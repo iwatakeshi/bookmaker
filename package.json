@@ -34,6 +34,7 @@
     }
   ],
   "devDependencies": {
+    "@prismify/tsdx": "^0.0.1",
     "@size-limit/preset-small-lib": "^4.10.2",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.41",
@@ -41,7 +42,6 @@
     "jest": "^26.6.3",
     "size-limit": "^4.10.2",
     "ts-jest": "^26.5.5",
-    "tsdx": "git+https://github.com/iwatakeshi/tsdx.git",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   }
