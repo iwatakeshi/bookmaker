@@ -25,13 +25,13 @@ describe('convert', () => {
 
   describe('convertAmericanToFraction', () => {
     it('should convert positive american odd to fraction', () => {
-      expect(americanToFraction('+180')).toStrictEqual([9, 5])
-      expect(americanToFraction(180)).toStrictEqual([9, 5])
+      expect(americanToFraction('+180')).toEqual([9, 5])
+      expect(americanToFraction(180)).toEqual([9, 5])
     })
 
     it('should convert negative american odd to fraction', () => {
-      expect(americanToFraction('-200')).toStrictEqual([1, 2])
-      expect(americanToFraction(-200)).toStrictEqual([1, 2])
+      expect(americanToFraction('-200')).toEqual([1, 2])
+      expect(americanToFraction(-200)).toEqual([1, 2])
     })
   })
 
@@ -60,11 +60,11 @@ describe('convert', () => {
 
   describe('convertDecimalToFraction', () => {
     it('should convert decimal to fraction', () => {
-      expect(decimalToFraction('1.2')).toStrictEqual([1, 5])
-      expect(decimalToFraction(1.2)).toStrictEqual([1, 5])
+      expect(decimalToFraction('1.2')).toEqual([1, 5])
+      expect(decimalToFraction(1.2)).toEqual([1, 5])
 
-      expect(decimalToFraction('3.25')).toStrictEqual([9, 4])
-      expect(decimalToFraction(3.25)).toStrictEqual([9, 4])
+      expect(decimalToFraction('3.25')).toEqual([9, 4])
+      expect(decimalToFraction(3.25)).toEqual([9, 4])
     })
   })
 

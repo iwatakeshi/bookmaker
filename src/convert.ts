@@ -1,14 +1,14 @@
-import { AmericanOdds, DecimalOdds, FractionalOdds } from "./types"
-import numberToFraction from "./utils/number-to-fraction";
+import { AmericanOdds, DecimalOdds, FractionalOdds } from './types'
+import numberToFraction from './utils/number-to-fraction'
 /**
  * Converts American odds to Decimal odds.
- * @param odds 
+ * @param odds
  */
 export function americanToDecimal(odds: AmericanOdds): number {
   const _odds = typeof odds === 'string' ? parseInt(odds) : odds
-  if (_odds >= 0) return (_odds / 100) + 1
+  if (_odds >= 0) return _odds / 100 + 1
 
-  return parseFloat((1 - (100 / _odds)).toFixed(2))
+  return parseFloat((1 - 100 / _odds).toFixed(2))
 }
 /**
  * Converts American odds to Decimal odds.
@@ -20,7 +20,9 @@ export const atd = americanToDecimal
  * Converts American odds to Fractional odds.
  * @param odds
  */
-export function americanToFraction(odds: AmericanOdds): [numerator: number, denominator: number] {
+export function americanToFraction(
+  odds: AmericanOdds
+): [numerator: number, denominator: number] {
   const _odds = typeof odds === 'string' ? parseInt(odds) : odds
   if (_odds > 0) return numberToFraction(_odds / 100)
   return numberToFraction(100 / Math.abs(_odds))
@@ -34,11 +36,15 @@ export const atf = americanToFraction
 
 /**
  * Converts Decimal odds to American odds.
- * @param odds 
+ * @param odds
  */
 export function decimalToAmerican(odds: DecimalOdds): number {
   const _odds = typeof odds === 'string' ? parseFloat(odds) : odds
-  return parseInt(_odds < 2.0 ? ((-100) / (_odds - 1)).toPrecision(5) : ((_odds - 1) * 100).toPrecision(5))
+  return parseInt(
+    _odds < 2.0
+      ? (-100 / (_odds - 1)).toPrecision(5)
+      : ((_odds - 1) * 100).toPrecision(5)
+  )
 }
 
 /**
@@ -49,9 +55,11 @@ export const dta = decimalToAmerican
 
 /**
  * Converts Decimal odds to Fractonal odds.
- * @param odds 
+ * @param odds
  */
-export function decimalToFraction(odds: DecimalOdds): [numerator: number, denominator: number] {
+export function decimalToFraction(
+  odds: DecimalOdds
+): [numerator: number, denominator: number] {
   const _odds = typeof odds === 'string' ? parseFloat(odds) : odds
 
   return numberToFraction(_odds - 1)
@@ -65,14 +73,15 @@ export const dtf = decimalToFraction
 
 /**
  * Converts Fractional odds to American odds.
- * @param odds 
+ * @param odds
  */
 export function fractionToAmerican(odds: FractionalOdds): number {
   const [numerator, denominator] = Array.isArray(odds) ? odds : odds.split('/')
   const n = typeof numerator === 'string' ? parseInt(numerator) : numerator
-  const d = typeof denominator === 'string' ? parseInt(denominator) : denominator
+  const d =
+    typeof denominator === 'string' ? parseInt(denominator) : denominator
   if (n > d) return (n / d) * 100
-  return (-100) / (n / d)
+  return -100 / (n / d)
 }
 
 /**
@@ -88,8 +97,9 @@ export const fta = fractionToAmerican
 export function fractionToDecimal(odds: FractionalOdds): number {
   const [numerator, denominator] = Array.isArray(odds) ? odds : odds.split('/')
   const n = typeof numerator === 'string' ? parseInt(numerator) : numerator
-  const d = typeof denominator === 'string' ? parseInt(denominator) : denominator
-  return (n / d) + 1
+  const d =
+    typeof denominator === 'string' ? parseInt(denominator) : denominator
+  return n / d + 1
 }
 
 /**
@@ -98,10 +108,9 @@ export function fractionToDecimal(odds: FractionalOdds): number {
  */
 export const ftd = fractionToDecimal
 
-
 /**
  * Converts American odds to percentage (implied probability).
- * @param odds 
+ * @param odds
  */
 export function americanToPercent(odds: AmericanOdds) {
   return parseFloat((1 / americanToDecimal(odds)).toFixed(3))
@@ -115,7 +124,7 @@ export const atp = americanToPercent
 
 /**
  * Converts Decimal odds to percentage (implied probability).
- * @param odds 
+ * @param odds
  */
 export function decimalToPercent(odds: DecimalOdds) {
   const american = decimalToAmerican(odds)
@@ -128,13 +137,12 @@ export function decimalToPercent(odds: DecimalOdds) {
  */
 export const dtp = decimalToPercent
 
-
 /**
  * Converts Fractional odds to percentage (implied probability).
- * @param odds 
+ * @param odds
  */
 export function fractionToPercent(odds: FractionalOdds) {
-  const american = fractionToAmerican(odds);
+  const american = fractionToAmerican(odds)
   return americanToPercent(american)
 }
 
