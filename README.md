@@ -1,105 +1,103 @@
-# Bookmaker
+# TSDX User Guide
 
-This lib is meant to help you work with odds, for instance in gambling project.
+Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
 
-To install use bower or npm
+> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
 
-```
-bower install bookmaker --save
-```
+> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
 
-```
-npm install bookmakerjs --save
-```
+## Commands
 
-You have at the moment series of methods and you can view their use in `test.js`.
+TSDX scaffolds your new library inside `/src`.
 
-Run test:
+To run TSDX, use:
 
-```
-mocha node_modules/bookmaker/test.js
+```bash
+npm start # or yarn start
 ```
 
-## API
+This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
 
-### fractionToPercent
-fractionToPercent(numerator:Number, denomiator:Number) : Number
+To do a one-off build, use `npm run build` or `yarn build`.
 
-Return percent as fraction of 1.
-### fractionToDecimal
-fractionToDecimal(numerator:Number, denomiator:Number) : Number
+To run tests, use `npm test` or `yarn test`.
 
-### fractionToAmerican
-fractionToAmerican(numerator:Number, denomiator:Number) : Number
+## Configuration
 
-### decimalToFraction
-decimalToFraction(decimal:Number): String
+Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
 
-### decimalToPercent
-decimalToPercent(decimal:Number): Number
+### Jest
 
-### decimalToAmerican
-decimalToAmerican(decimal:Number): Number
+Jest tests are set up to run with `npm test` or `yarn test`.
 
-### percentToDecimal
-percentToDecimal(percent:Number): Number
+### Bundle Analysis
 
-### percentToFraction
-percentToFraction(percent:Number): String
+[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
 
-### percentToAmerican
-percentToAmerican(percent:Number): Number
+#### Setup Files
 
-### americanToDecimal
-americanToDecimal(american:Number): Number
+This is the folder structure we set up for you:
 
-### americanToPercent
-americanToPercent(american:Number): Number
+```txt
+/src
+  index.ts        # EDIT THIS
+/test
+  index.test.ts   # EDIT THIS
+.gitignore
+package.json
+README.md         # EDIT THIS
+tsconfig.json
+```
 
-### americanToFraction
-americanToFraction(american:Number): String
+### Rollup
 
-### winSingle
-winSingle(decimal:Number, money:Number): Number
-winSingle(any:String, money:Number): Number - see parse function
+TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
 
-### winEachWaySingle
-winEachWaySingle(decimal:Number, placeOdds:Number, moneyWin:Number, moneyPlace:Number): Number
-winEachWaySingle(any:String, placeOdds:Number, moneyWin:Number, moneyPlace:Number): Number
+### TypeScript
 
-### winEachWaySingleDetailed
-See `test.js`
+`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
 
-### winAccumulator
-winEachWaySingle(moneyWin:Number, moneyPlace:Number, [decimal:Number, placeOdds:Number], ...): 
-Number
+## Continuous Integration
 
-### oddsEachWaySingle
-oddsEachWaySingle(winOdds:Any, placeOdds:Any):Object - see `test.js`
+### GitHub Actions
 
-### combineOddsEachWay
-combineOddsEachWAy(list:Array): Object - see `test.js`
+Two actions are added by default:
 
-### combineOdds
-combineOdds(list:array): Number - see `test.js`
+- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
+- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
 
+## Optimizations
 
-### parse
-parse(any:String) : Number - decimal
+Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
 
-Accepts:
+```js
+// ./types/index.d.ts
+declare var __DEV__: boolean;
 
- * `1/4` fracitons
- * `50%` percents
- * `1:5` odds (: mean divide sign)
- * numbers as decimals
- 
+// inside your code...
+if (__DEV__) {
+  console.log('foo');
+}
+```
 
-## Author
+You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
 
-[Lukasz Sielski](http://github.com/sielay)
+## Module Formats
 
-## Licence
+CJS, ESModules, and UMD module formats are supported.
 
-MIT - just because 
+The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
 
+## Named Exports
+
+Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+
+## Including Styles
+
+There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
+
+For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
+
+## Publishing to NPM
+
+We recommend using [np](https://github.com/sindresorhus/np).
